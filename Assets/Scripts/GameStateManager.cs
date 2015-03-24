@@ -33,6 +33,7 @@ public class GameStateManager : MonoBehaviour {
 	private float CurInvincibilityTime = 0.0f;
 	
 	public AudioSource BooyahSound;
+	public AudioSource CannonBoom;
 	// Use this for initialization
 	void Start () 
 	{
@@ -84,6 +85,7 @@ public class GameStateManager : MonoBehaviour {
 					BooyahInScene.Active = true;
 					Player.didStartOnBeat = false;
 					BooyahSound.Play();	
+					CannonBoom.Play();
 				}
 			
 			}
@@ -102,6 +104,7 @@ public class GameStateManager : MonoBehaviour {
 						BooyahInScene.Active = true;
 						Player.didStartOnBeat = false;
 						BooyahSound.Play();
+						CannonBoom.Play();
 					}
 				}
 			break;

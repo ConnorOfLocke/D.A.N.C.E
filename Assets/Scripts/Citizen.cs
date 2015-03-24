@@ -29,6 +29,7 @@ public class Citizen : BeatReciever
 	private SpriteAnimation AttachedAnim = null;
 	private AudioSource AttachedAudioSource = null;
 
+
 	private bool TimeKeeping = false;
 	private GlobalTimeKeeper TimeKeeper = null;
 
@@ -68,26 +69,31 @@ public class Citizen : BeatReciever
 		
 		AttachedAudioSource.pitch = TimeKeeper.CurDeltaRatio;
 	
-		if (curDirection == DIRECTION.LEFT)
+		//Move the citizen
+
+		if (!IsActive)
 		{
-			AttachedAnim.curDirection = curDirection;
-			
-			transform.position = transform.position + new Vector3(-Speed * DeltaTime,0,0);
-			if ( Vector3.Distance(transform.position, OriginalPosition) > PatrolDistance)
+			if (curDirection == DIRECTION.LEFT)
 			{
-				curDirection = DIRECTION.RIGHT;
-				transform.position = transform.position - new Vector3(-Speed * DeltaTime,0,0);
+				AttachedAnim.curDirection = curDirection;
+				
+				transform.position = transform.position + new Vector3(-Speed * DeltaTime,0,0);
+				if ( Vector3.Distance(transform.position, OriginalPosition) > PatrolDistance)
+				{
+					curDirection = DIRECTION.RIGHT;
+					transform.position = transform.position - new Vector3(-Speed * DeltaTime,0,0);
+				}
 			}
-		}
-		else if (curDirection == DIRECTION.RIGHT)
-		{
-			AttachedAnim.curDirection = curDirection;
-			
-			transform.position = transform.position + new Vector3( Speed * DeltaTime,0,0);
-			if ( Vector3.Distance(transform.position, OriginalPosition) > PatrolDistance)
+			else if (curDirection == DIRECTION.RIGHT)
 			{
-				curDirection = DIRECTION.LEFT;
-				transform.position = transform.position - new Vector3( Speed * DeltaTime,0,0);
+				AttachedAnim.curDirection = curDirection;
+				
+				transform.position = transform.position + new Vector3( Speed * DeltaTime,0,0);
+				if ( Vector3.Distance(transform.position, OriginalPosition) > PatrolDistance)
+				{
+					curDirection = DIRECTION.LEFT;
+					transform.position = transform.position - new Vector3( Speed * DeltaTime,0,0);
+				}
 			}
 		}
 	
@@ -95,7 +101,7 @@ public class Citizen : BeatReciever
 		{
 			if (Vector3.Distance(CurrentPlayer.gameObject.transform.position, transform.position) < DistanceToActivate)
 			{
-				AttachedRenderer.color = Color.green;
+				//AttachedRenderer.color = Color.green;
 				if (!IsActive)
 				{
 					IsActive = true;
@@ -103,6 +109,15 @@ public class Citizen : BeatReciever
 					if (ActivateExplosion != null)
 						GameObject.Instantiate(ActivateExplosion, transform.position, Quaternion.identity);
 					AttachedAudioSource.Play();
+
+					AttachedAnim.StartFrame = 4;
+					AttachedAnim.EndFrame = 7;
+					AttachedAnim.CurrentSprite = 4;
+					AttachedAnim.FPS = 4;
+					AttachedRenderer.color = OriginalColor;
+					
+
+
 				}
 			}
 		}
